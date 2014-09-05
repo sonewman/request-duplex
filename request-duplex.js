@@ -52,7 +52,6 @@ function RequestDuplex(options) {
   this._fwdStatus = options.status === false ? false : true
   this._fwdHeaders = options.headers === false ? false : true
   this._statusCode = 0
-  this._pipping = []
 
   if (this._options.objectMode === true) {
     streamOpts.objectMode = true
@@ -74,9 +73,19 @@ Object.defineProperty(RequestDuplex.prototype, 'responded', {
   get: function () { return !!this._res }
 })
 
+Object.defineProperty(RequestDuplex.prototype, 'headers', {
+  get: function () {
+    return this._res ? this._res.headers : {}
+  }
+})
+
+// this has to be here if we want to send body data
+// in a `get` request else it will not actually send
+// the data this avoids users from dealing with this
 function transEnc(options) {
   options.headers = options.headers || {}
-  options.headers['Transfer-Encoding'] = 'chunked'
+  var currentEnc = options.headers['Transfer-Encoding']
+  options.headers['Transfer-Encoding'] = currentEnc || 'chunked'
 }
 
 function maybeMakeReq(duplex, data) {
@@ -138,11 +147,3 @@ RequestDuplex.prototype.pipe = function (writable) {
   pipe.call(this, writable)
 }
 
-var unpipe = RequestDuplex.prototype.unpipe
-RequestDuplex.prototype.unpipe = function (str) {
-  var i
-  while ((i = this._pipping.indexOf(str)) > -1)
-    this._pipping.splice(i, 1)
-
-  unpipe.call(this, str)
-}

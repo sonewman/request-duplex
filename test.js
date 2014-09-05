@@ -125,7 +125,7 @@ describe('RequestDuplex!', function () {
     this.input.pipe(r).pipe(this.output)
   })
   
-  it('Should take a stream piped into it', function (done) {
+  it('Should emit error if response from resource errors', function (done) {
     var mockRequest = new stream.Writable()
     mockRequest._write = function (d, e, n) { n() }
     var mockResponse = new stream.Writable()
