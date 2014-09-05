@@ -144,6 +144,6 @@ RequestDuplex.prototype.pipe = function (writable) {
     }
   }
 
-  pipe.call(this, writable)
+  return pipe.call(this, writable)
 }
 
