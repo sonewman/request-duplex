@@ -1,0 +1,33 @@
+{
+  "name": "request-duplex",
+  "version": "0.0.0",
+  "description": "Duplex stream for http requests",
+  "main": "request-duplex.js",
+  "scripts": {
+    "test": "mocha -R spec ./test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sonewman/request-duplex.git"
+  },
+  "keywords": [
+    "http",
+    "duplex",
+    "request"
+  ],
+  "author": "Sam Newman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sonewman/request-duplex/issues"
+  },
+  "homepage": "https://github.com/sonewman/request-duplex",
+  "devDependencies": {
+    "mocha": "^1.21.4",
+    "should": "^4.0.4",
+    "sinon": "^1.10.3"
+  },
+  "dependencies": {
+    "inherits": "^2.0.1",
+    "readable-stream": "^1.1.13"
+  }
+}
