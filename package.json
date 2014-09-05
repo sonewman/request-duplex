@@ -1,6 +1,6 @@
 {
   "name": "request-duplex",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Duplex stream for http requests",
   "main": "request-duplex.js",
   "scripts": {
