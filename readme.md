@@ -25,9 +25,7 @@ var BE = {
 var server = http.createServer()
 server.on('request', function (req, res) {
   var rd = new RequestDuplex(BE)
-  req
-    .pipe(rd)
-    . pipe(res)
+  req.pipe(rd).pipe(res)
 })
 
 server.listen(8888)
