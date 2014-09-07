@@ -75,6 +75,48 @@ describe('RequestDuplex!', function () {
     })
   })
   
+  it('Should handle successful request with data written on end', function (done) {
+    var self = this
+    var responseData = "response from webserver"
+    var responseCode = 200
+
+    var server = http.createServer(function (req, res) {
+      var incomingData = "";
+      req.on('data', function (d) {
+        incomingData += d
+      })
+      req.on('end', function () {
+        incomingData.should.equal(self.data.join(''))
+      })
+
+      res.statusCode = responseCode
+      res.end(responseData)
+    })
+    
+    var port
+    server.listen(function () {
+      port = server.address().port
+      
+      var options = {
+        port: port
+        , method: "GET"
+      }
+      
+      var r = new RequestDuplex(options)
+
+      self.output.on('finish', function () {
+        self.result.should.equal(responseData)
+        self.output.statusCode.should.equal(200)
+        r.statusCode.should.equal(200)
+        done();
+        server.close()
+      })
+      
+      r.pipe(self.output)
+      r.end(new Buffer(self.data.join('')))
+    })
+  })
+  
   it('Should take a stream piped into it', function (done) {
     var responseData = "response from webserver"
     var responseCode = 500
